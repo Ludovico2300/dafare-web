@@ -19,9 +19,7 @@ const TodosList: React.FC = () => {
       <div className="mb-8">
         <h1 className="text-2xl font-bold mb-2">Da Fare</h1>
         <div className="mb-4">
-          <h3 className="text-lg font-semibold mb-2 underline">
-            Da Ludo Orcoide
-          </h3>
+          <h3 className="text-lg font-semibold mb-2">Da Ludo Orcoide😠</h3>
           {renderTodoCards(
             todos?.filter(
               (todo: Todo) => !todo.completed && todo.from === "Ludovico"
@@ -29,8 +27,8 @@ const TodosList: React.FC = () => {
           )}
         </div>
         <div>
-          <h3 className="text-lg font-semibold mb-2 underline">
-            Da Nicole Bellissima Mia Prencipesa
+          <h3 className="text-lg font-semibold mb-2">
+            Da Nicole Bellissima Mia Prencipesa😾
           </h3>
           {renderTodoCards(
             todos?.filter(
@@ -43,9 +41,7 @@ const TodosList: React.FC = () => {
       <div>
         <h1 className="text-2xl font-bold mb-2">Fatti</h1>
         <div className="mb-4">
-          <h3 className="text-lg font-semibold mb-2 underline">
-            Da Ludo Orcoide
-          </h3>
+          <h3 className="text-lg font-semibold mb-2">Da Ludo Orcoide😠</h3>
           {renderTodoCards(
             todos?.filter(
               (todo: Todo) => todo.completed && todo.from === "Ludovico"
@@ -53,8 +49,8 @@ const TodosList: React.FC = () => {
           )}
         </div>
         <div>
-          <h3 className="text-lg font-semibold mb-2 underline">
-            Da Nicole Bellissima Mia Prencipesa
+          <h3 className="text-lg font-semibold mb-2">
+            Da Nicole Bellissima Mia Prencipesa😾
           </h3>
           {renderTodoCards(
             todos?.filter(

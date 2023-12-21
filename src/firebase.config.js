@@ -9,12 +9,14 @@ import { getDatabase } from "firebase/database";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyATPpZGtBqI98qNjSdjEEGp2l450QHz6X4",
-  authDomain: "allora-web.firebaseapp.com",
-  projectId: "allora-web",
-  storageBucket: "allora-web.appspot.com",
-  messagingSenderId: "885291819285",
-  appId: "1:885291819285:web:307f9b348d6d0c6fe2891c",
+  apiKey: "AIzaSyCb74_gJfpPr7Wl4xTNjIbrd4cQ2OmGp2k",
+  authDomain: "dafare-web.firebaseapp.com",
+  databaseURL:
+    "https://dafare-web-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "dafare-web",
+  storageBucket: "dafare-web.appspot.com",
+  messagingSenderId: "401099833551",
+  appId: "1:401099833551:web:3da38c3872ac8111f5b7ba",
 };
 
 if (firebase.apps.length === 0) {

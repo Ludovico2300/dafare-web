@@ -1,7 +1,6 @@
-export type Spot = {
+export type Todo = {
   id: number;
   title: string;
-  url: string;
-  image: string;
-  author?: string;
+  from: string;
+  completed: boolean;
 };

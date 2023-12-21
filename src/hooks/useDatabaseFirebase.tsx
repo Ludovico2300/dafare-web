@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 import { databaseData } from "../firebase.config";
 import { ref, onValue, set, update, remove } from "firebase/database";
-import useAuthFirebase from "./useAuthFirebase";
-import { Spot } from "../type.def";
+import { Todo } from "../type.def";
 
 export default function useDatabaseFirebase() {
-  const { currentUser } = useAuthFirebase();
-  const [spots, setSpots] = useState([]);
+  const [todos, setTodos] = useState([]);
 
   //READ DATABASE
   useEffect(() => {
     onValue(ref(databaseData), (snapshot) => {
       const data = snapshot.val();
       if (data !== null) {
-        setSpots(data.spots);
+        setTodos(data.todos);
       }
     });
   }, []);
@@ -23,14 +21,13 @@ export default function useDatabaseFirebase() {
     database: any,
     endpoint: string,
     identifierEndpoint: any,
-    newData: Spot
+    newData: Todo
   ) => {
     set(ref(database, endpoint + identifierEndpoint), {
       id: newData.id,
       title: newData.title,
-      image: newData.image,
-      url: newData.url,
-      author: currentUser?.displayName,
+      from: newData.from,
+      completed: newData.completed,
     });
   };
 
@@ -39,14 +36,13 @@ export default function useDatabaseFirebase() {
     database: any,
     endpoint: string,
     identifierEndpoint: any,
-    newData: Spot
+    newData: Todo
   ) => {
     update(ref(database, endpoint + identifierEndpoint), {
       id: newData.id,
       title: newData.title,
-      image: newData.image,
-      url: newData.url,
-      author: currentUser?.displayName,
+      from: newData.from,
+      completed: newData.completed,
     });
   };
   //DELETE FROM DATABASE
@@ -59,7 +55,7 @@ export default function useDatabaseFirebase() {
   };
 
   return {
-    spots,
+    todos,
     writeToDatabase,
     updateDatabase,
     deleteFromDatabase,

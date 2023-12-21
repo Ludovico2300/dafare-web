@@ -1,213 +1,111 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState } from "react";
 import { databaseData } from "../firebase.config";
-import useAuthFirebase from "../hooks/useAuthFirebase";
 import useDatabaseFirebase from "../hooks/useDatabaseFirebase";
-import { Spot } from "../type.def";
 
 export default function Create() {
-  const navigate = useNavigate();
-  const { state } = useLocation(); // state has type of unknown, so i decided to create a new state, originalCard
-  const { spots, writeToDatabase, updateDatabase, deleteFromDatabase } =
-    useDatabaseFirebase();
-  const { currentUser } = useAuthFirebase();
-  const [originalSpot, setOriginalSpot] = useState<Spot>();
+  const { todos, writeToDatabase } = useDatabaseFirebase();
   const [title, setTitle] = useState<string>("");
-  const [image, setImage] = useState<string>("");
-  const [url, setUrl] = useState<string>("");
+  const [from, setFrom] = useState<string>("");
+  const [completed, setCompleted] = useState<boolean>(false);
 
   const resetForm = () => {
     setTitle("");
-    setUrl("");
-    setImage("");
+    setFrom("");
+    setCompleted(false);
   };
-
-  const presetForm = () => {};
-
-  useEffect(() => {}, [originalSpot]);
 
   const handleAddPost = async () => {
     try {
-      writeToDatabase(databaseData, "/spots/", spots.length, {
+      writeToDatabase(databaseData, "/todos/", todos.length, {
         title: title,
-        url: url,
-        image: image
-          ? image
-          : "./assets/tabs/notizie-ea/generic-electronic-arts.png", // replace with a placeholder
-        id: spots.length,
+        from: from,
+        completed: completed,
+        id: todos.length,
       });
       alert("Success");
     } catch (e: any) {
       alert(e.message);
     }
   };
-  const handleEditPost = async () => {
-    try {
-      if (originalSpot)
-        updateDatabase(databaseData, "/spot/", originalSpot?.id, {
-          title: title,
-          url: url,
-          image: image
-            ? image
-            : "./assets/tabs/notizie-ea/generic-electronic-arts.png", // replace with a placeholder
-          id: spots.length,
-        });
-      alert("Success");
-    } catch (e: any) {
-      alert(e.message);
-    }
-  };
-  const handleDeletePost = async () => {
-    try {
-      if (originalSpot)
-        deleteFromDatabase(databaseData, "/spots/", originalSpot?.id);
-      alert("Success");
-      navigate("/");
-    } catch (e: any) {
-      alert(e.message);
-    }
-  };
 
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        height: "90vh",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "space-around",
-      }}
-    >
-      {currentUser && currentUser?.email === "ludovicocolucci@gmail.com" ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-around",
-              width: "60vw",
-            }}
-          >
-            {/* FORM SECTION */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <h1>Title</h1>
-              <input
-                placeholder="Title"
-                type="text"
-                name="title"
-                required
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-              <h1>Url</h1>
-              <input
-                placeholder="Url"
-                type="text"
-                name="url"
-                required
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-              />
+    <div className="bg-white h-1/2 w-3/5 mx-auto p-2 flex flex-col items-center justify-around border-4 border-black rounded-2xl">
+      <div className="flex flex-col items-center justify-between space-y-4 w-3/5 mx-auto">
+        <div className="flex items-center justify-around w-full">
+          {/* FORM SECTION */}
+          <div className="flex flex-col items-center">
+            <h1 className="text-xl font-bold mb-2">Titolo</h1>
+            <input
+              className="border border-black p-2 rounded-md"
+              placeholder="Title"
+              type="text"
+              name="title"
+              required
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
 
-              <h1>Image</h1>
-              <input
-                placeholder="Image"
-                name="Image"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-              />
+            {/* "From" field */}
+            <h1 className="text-xl font-bold mt-2">Da chi?</h1>
+            <div className="flex space-x-2">
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="from"
+                  value="Ludovico"
+                  checked={from === "Ludovico"}
+                  onChange={() => setFrom("Ludovico")}
+                  className="mr-2"
+                />
+                Ludovico
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="from"
+                  value="Nicole"
+                  checked={from === "Nicole"}
+                  onChange={() => setFrom("Nicole")}
+                  className="mr-2"
+                />
+                Nicole
+              </label>
+              {/* Add other options as needed */}
+            </div>
+
+            {/* "Completed" field */}
+            <div className="mt-2">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="completed"
+                  checked={completed}
+                  onChange={() => setCompleted(!completed)}
+                  className="mr-2"
+                />
+                Completato
+              </label>
             </div>
           </div>
-
-          {/* BUTTON DIV SECTION */}
-          <div
-            style={{
-              width: "auto",
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
-            }}
-          >
-            <button
-              style={{
-                margin: "1rem",
-                padding: "7px",
-                fontSize: "2rem",
-                border: "3px solid black",
-                borderRadius: "10px",
-                cursor: "pointer",
-              }}
-              onClick={resetForm}
-            >
-              Reset
-            </button>
-
-            {originalSpot && (
-              <button
-                style={{
-                  margin: "1rem",
-                  padding: "7px",
-                  fontSize: "2rem",
-                  border: "3px solid black",
-                  borderRadius: "10px",
-                  cursor: "pointer",
-                }}
-                onClick={presetForm}
-              >
-                Reload Original Card
-              </button>
-            )}
-
-            <button
-              style={{
-                margin: "1rem",
-                padding: "7px",
-                fontSize: "2rem",
-                border: "3px solid black",
-                borderRadius: "10px",
-                cursor: "pointer",
-              }}
-              onSubmit={originalSpot ? handleEditPost : handleAddPost}
-              onClick={originalSpot ? handleEditPost : handleAddPost}
-            >
-              {originalSpot ? "Edit Post" : "Add Post"}
-            </button>
-            {originalSpot && (
-              <button
-                style={{
-                  margin: "1rem",
-                  padding: "7px",
-                  fontSize: "2rem",
-                  border: "3px solid black",
-                  borderRadius: "10px",
-                  cursor: "pointer",
-                }}
-                onSubmit={handleDeletePost}
-                onClick={handleDeletePost}
-              >
-                Delete Post
-              </button>
-            )}
-          </div>
         </div>
-      ) : (
-        <h1>You are not allowed to visit this page!!!</h1>
-      )}
+
+        {/* BUTTON DIV SECTION */}
+        <div className="flex items-center justify-around w-full">
+          <button
+            className="bg-gray-300 text-black py-2 px-4 rounded-md cursor-pointer"
+            onClick={resetForm}
+          >
+            Reset
+          </button>
+
+          <button
+            className="bg-green-500 text-white py-2 px-4 rounded-md cursor-pointer"
+            onClick={handleAddPost}
+          >
+            Aggiungi
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

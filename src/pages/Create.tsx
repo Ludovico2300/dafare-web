@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { databaseData } from "../firebase.config";
 import useDatabaseFirebase from "../hooks/useDatabaseFirebase";
+import Swal from "sweetalert2";
 
 export default function Create() {
   const { todos, writeToDatabase } = useDatabaseFirebase();
@@ -15,6 +16,7 @@ export default function Create() {
   };
 
   const handleAddPost = async () => {
+    const randomImage = Math.floor(Math.random() * 15) + 1;
     try {
       writeToDatabase(databaseData, "/todos/", todos.length, {
         title: title,
@@ -22,14 +24,24 @@ export default function Create() {
         completed: completed,
         id: todos.length,
       });
-      alert("Success");
+      Swal.fire({
+        title: "Aggiunto!",
+        imageUrl: process.env.PUBLIC_URL + `/img/${randomImage}.webp`,
+        imageWidth: 200,
+        text: "Hai aggiunto la ricompensa alla lista!",
+      });
     } catch (e: any) {
-      alert(e.message);
+      Swal.fire({
+        title: "C'è stato un errore...",
+        imageUrl: process.env.PUBLIC_URL + `/img/${randomImage}.webp`,
+        imageWidth: 200,
+        text: e.message,
+      });
     }
   };
 
   return (
-    <div className="bg-white h-1/2 w-3/5 mx-auto p-2 flex flex-col items-center justify-around border-4 border-black rounded-2xl">
+    <div className="bg-transparent h-1/2 w-3/5 mx-auto p-2 flex flex-col items-center justify-around border-4 border-black rounded-2xl">
       <div className="flex flex-col items-center justify-between space-y-4 w-3/5 mx-auto">
         <div className="flex items-center justify-around w-full">
           {/* FORM SECTION */}

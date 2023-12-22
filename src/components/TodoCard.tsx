@@ -12,7 +12,7 @@ const TodoCard: React.FC<TodoProps> = ({ todo }) => {
   const { updateDatabase } = useDatabaseFirebase();
 
   const handleToggleCompletion = async () => {
-    const randomImage = Math.floor(Math.random() * 15) + 1;
+    const randomImage = Math.floor(Math.random() * 14) + 1;
 
     try {
       updateDatabase(databaseData, "/todos/", todo.id, {
@@ -37,7 +37,7 @@ const TodoCard: React.FC<TodoProps> = ({ todo }) => {
   };
 
   const handleEdit = async () => {
-    const randomImage = Math.floor(Math.random() * 15) + 1;
+    const randomImage = Math.floor(Math.random() * 14) + 1;
     try {
       const inputValue = todo.title;
       Swal.fire({

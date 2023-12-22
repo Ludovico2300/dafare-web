@@ -16,7 +16,7 @@ export default function Create() {
   };
 
   const handleAddPost = async () => {
-    const randomImage = Math.floor(Math.random() * 15) + 1;
+    const randomImage = Math.floor(Math.random() * 14) + 1;
 
     try {
       // Write to the database

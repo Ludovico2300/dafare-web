@@ -52,7 +52,7 @@ const ToviewCard: React.FC<ToviewProps> = ({ toview }) => {
         showCancelButton: true,
         inputValidator: (value) => {
           if (!value) {
-            return "Inserisci la nuova ricomprensa!";
+            return "Inserisci il nuovo titolo!";
           } else {
             updateDatabase(databaseData, "/toview/", toview.id, {
               title: value,

@@ -1,5 +1,5 @@
 import React from "react";
-import TodoCard from "../components/TodoCard";
+import TodoCard from "./TodoCard";
 import useDatabaseFirebase from "../hooks/useDatabaseFirebase";
 import { Todo } from "../type.def";
 

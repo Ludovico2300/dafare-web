@@ -12,6 +12,13 @@ export default function Homepage() {
             width={200}
           />
         </Link>
+        <Link to={"/vediamolo"}>
+          <img
+            src={process.env.PUBLIC_URL + `/img/1.webp`}
+            alt=""
+            width={200}
+          />
+        </Link>
       </header>
     </div>
   );

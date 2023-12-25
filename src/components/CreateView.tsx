@@ -1,39 +1,50 @@
 import React, { useState } from "react";
 import { databaseData } from "../firebase.config";
-import useDatabaseFirebase from "../hooks/useDatabaseFirebase";
 import Swal from "sweetalert2";
+import useDatabaseFirebaseViews from "../hooks/useDatabaseFirebaseViews";
 
-export default function Create() {
-  const { todos, writeToDatabase } = useDatabaseFirebase();
+export default function CreateView() {
+  const { toview, writeToDatabase } = useDatabaseFirebaseViews();
   const [title, setTitle] = useState<string>("");
-  const [from, setFrom] = useState<string>("");
-  const [completed, setCompleted] = useState<boolean>(false);
+  const [link, setLink] = useState<string>("");
+  const [started, setStarted] = useState<boolean>(false);
 
   const resetForm = () => {
     setTitle("");
-    setFrom("");
-    setCompleted(false);
+    setLink("");
+    setStarted(false);
   };
 
   const handleAddPost = async () => {
     const randomImage = Math.floor(Math.random() * 14) + 1;
 
     try {
-      // Write to the database
-      writeToDatabase(databaseData, "/todos/", todos.length, {
-        title: title,
-        from: from,
-        completed: completed,
-        id: todos.length,
-      });
+      if (title) {
+        // Write to the database
+        writeToDatabase(databaseData, "/toview/", toview.length, {
+          title: title,
+          link: link,
+          started: started,
+          id: toview.length,
+        });
 
-      // Show success alert
-      Swal.fire({
-        title: "Aggiunto!",
-        imageUrl: process.env.PUBLIC_URL + `/img/${randomImage}.webp`,
-        imageWidth: 200,
-        text: "Hai aggiunto la ricompensa alla lista!",
-      });
+        // Show success alert
+        Swal.fire({
+          title: "Aggiunto!",
+          imageUrl: process.env.PUBLIC_URL + `/img/${randomImage}.webp`,
+          imageWidth: 200,
+          text: "Vediamolo assieme!",
+        });
+        resetForm();
+      } else {
+        // Show error alert
+        Swal.fire({
+          title: "C'è stato un errore...",
+          imageUrl: process.env.PUBLIC_URL + `/img/${randomImage}.webp`,
+          imageWidth: 200,
+          text: "Inserisci il titolo!",
+        });
+      }
     } catch (error: any) {
       // Show error alert
       Swal.fire({
@@ -47,11 +58,11 @@ export default function Create() {
 
   return (
     <div className="container mx-auto mt-10 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md w-2/3">
+      <div className="bg-white p-8 rounded-lg shadow-md w-4/5">
         <div className="flex flex-col items-center space-y-6">
           {/* Image Section */}
           <img
-            src={process.env.PUBLIC_URL + `/img/12.webp`}
+            src={process.env.PUBLIC_URL + `/img/1.webp`}
             alt=""
             className="w-1/2 mb-4"
           />
@@ -61,7 +72,7 @@ export default function Create() {
             <label className="text-xl font-bold mb-2">Titolo</label>
             <input
               className="w-full border border-black p-2 rounded-md"
-              placeholder="Inserisci la ricompensa..."
+              placeholder="Inserisci il titolo..."
               type="text"
               name="title"
               required
@@ -72,30 +83,17 @@ export default function Create() {
 
           {/* "From" Radio Buttons */}
           <div className="w-full mb-4">
-            <label className="text-xl font-bold mb-2">Da chi?</label>
+            <label className="text-xl font-bold mb-2">Link</label>
             <div className="flex space-x-4">
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  name="from"
-                  value="Ludovico"
-                  checked={from === "Ludovico"}
-                  onChange={() => setFrom("Ludovico")}
-                  className="mr-2"
-                />
-                Ludovico😠
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  name="from"
-                  value="Nicole"
-                  checked={from === "Nicole"}
-                  onChange={() => setFrom("Nicole")}
-                  className="mr-2"
-                />
-                Nicole😾
-              </label>
+              <input
+                className="w-full border border-black p-2 rounded-md"
+                placeholder="Inserisci il link..."
+                type="text"
+                name="link"
+                required
+                value={link}
+                onChange={(e) => setLink(e.target.value)}
+              />
             </div>
           </div>
 
@@ -104,9 +102,9 @@ export default function Create() {
             <label className="flex items-center">
               <input
                 type="checkbox"
-                name="completed"
-                checked={completed}
-                onChange={() => setCompleted(!completed)}
+                name="started"
+                checked={started}
+                onChange={() => setStarted(!started)}
                 className="mr-2"
               />
               Completato
@@ -131,6 +129,12 @@ export default function Create() {
               Aggiungi
             </button>
           </div>
+          <ul className="list-disc">
+            <li>Per modificare premi lo sticker!</li>
+            <li>
+              * indica che è presente un link, premi sul titolo per aprirlo!
+            </li>
+          </ul>
         </div>
       </div>
     </div>

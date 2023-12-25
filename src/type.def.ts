@@ -4,3 +4,9 @@ export type Todo = {
   from: string;
   completed: boolean;
 };
+export type ToView = {
+  id: number;
+  title: string;
+  link?: string;
+  started: boolean;
+};

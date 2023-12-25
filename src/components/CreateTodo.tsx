@@ -19,21 +19,30 @@ export default function CreateTodo() {
     const randomImage = Math.floor(Math.random() * 14) + 1;
 
     try {
-      // Write to the database
-      writeToDatabase(databaseData, "/todos/", todos.length, {
-        title: title,
-        from: from,
-        completed: completed,
-        id: todos.length,
-      });
+      if (title && from) {
+        // Write to the database
+        writeToDatabase(databaseData, "/todos/", todos.length, {
+          title: title,
+          from: from,
+          completed: completed,
+          id: todos.length,
+        });
 
-      // Show success alert
-      Swal.fire({
-        title: "Aggiunto!",
-        imageUrl: process.env.PUBLIC_URL + `/img/${randomImage}.webp`,
-        imageWidth: 200,
-        text: "Hai aggiunto la ricompensa alla lista!",
-      });
+        // Show success alert
+        Swal.fire({
+          title: "Aggiunto!",
+          imageUrl: process.env.PUBLIC_URL + `/img/${randomImage}.webp`,
+          imageWidth: 200,
+          text: "Hai aggiunto la ricompensa alla lista!",
+        });
+      } else {
+        Swal.fire({
+          title: "C'è stato un errore...",
+          imageUrl: process.env.PUBLIC_URL + `/img/${randomImage}.webp`,
+          imageWidth: 200,
+          text: "Compila titolo/da chi!",
+        });
+      }
     } catch (error: any) {
       // Show error alert
       Swal.fire({
@@ -132,6 +141,9 @@ export default function CreateTodo() {
               Aggiungi
             </button>
           </div>
+          <ul className="list-disc">
+            <li>Per modificare premi lo sticker!</li>
+          </ul>
         </div>
       </div>
     </div>

@@ -76,7 +76,7 @@ const ToviewCard: React.FC<ToviewProps> = ({ toview }) => {
   return (
     <div className="max-w-md mx-auto bg-white rounded-md overflow-hidden shadow-lg my-4">
       <div className="px-3 py-2">
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center justify-between">
           <div className="flex items-center">
             <img
               onClick={handleEdit}

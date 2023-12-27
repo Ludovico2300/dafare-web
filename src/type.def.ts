@@ -10,3 +10,9 @@ export type ToView = {
   link?: string;
   started: boolean;
 };
+export type Wish = {
+  id: number;
+  title: string;
+  from: string;
+  completed: boolean;
+};

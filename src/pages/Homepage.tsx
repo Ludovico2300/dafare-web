@@ -19,6 +19,13 @@ export default function Homepage() {
             width={200}
           />
         </Link>
+        <Link to={"/desires"}>
+          <img
+            src={process.env.PUBLIC_URL + `/img/2.webp`}
+            alt=""
+            width={200}
+          />
+        </Link>
       </header>
     </div>
   );

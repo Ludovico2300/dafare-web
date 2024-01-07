@@ -28,6 +28,7 @@ export default function useDatabaseFirebase() {
       title: newData.title,
       from: newData.from,
       completed: newData.completed,
+      motivazione: newData.motivazione,
     });
   };
 
@@ -43,6 +44,7 @@ export default function useDatabaseFirebase() {
       title: newData.title,
       from: newData.from,
       completed: newData.completed,
+      motivazione: newData.motivazione,
     });
   };
   //DELETE FROM DATABASE

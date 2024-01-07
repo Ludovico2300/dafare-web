@@ -3,7 +3,9 @@ export type Todo = {
   title: string;
   from: string;
   completed: boolean;
+  motivazione?: string;
 };
+
 export type ToView = {
   id: number;
   title: string;

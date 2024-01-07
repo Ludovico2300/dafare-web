@@ -20,12 +20,49 @@ const TodoCard: React.FC<TodoProps> = ({ todo }) => {
         title: todo.title,
         from: todo.from,
         completed: !todo.completed,
+        motivazione: todo.motivazione,
         id: todo.id,
       });
       Swal.fire({
         title: todo.completed ? "Ancora da fare..." : "Completato!!!",
         imageUrl: process.env.PUBLIC_URL + `/img/${randomImage}.webp`,
         imageWidth: 200,
+      });
+    } catch (error: any) {
+      Swal.fire({
+        title: "C'è stato un errore...",
+        imageUrl: process.env.PUBLIC_URL + `/img/${randomImage}.webp`,
+        imageWidth: 200,
+        text: error.message,
+      });
+    }
+  };
+
+  const handleShowEditMotivazione = async () => {
+    const randomImage = Math.floor(Math.random() * 14) + 1;
+    try {
+      const inputValue = todo.motivazione;
+      Swal.fire({
+        title: "Modifica la motivazione!",
+        input: "text",
+        inputLabel: "Nuova motivazione:",
+        inputValue,
+        imageUrl: process.env.PUBLIC_URL + `/img/${randomImage}.webp`,
+        imageWidth: 200,
+        showCancelButton: true,
+        inputValidator: (value) => {
+          if (!value) {
+            return "Inserisci la nuova motivazione!";
+          } else {
+            updateDatabase(databaseData, "/todos/", todo.id, {
+              title: todo.title,
+              from: todo.from,
+              completed: todo.completed,
+              motivazione: value,
+              id: todo.id,
+            });
+          }
+        },
       });
     } catch (error: any) {
       Swal.fire({
@@ -57,6 +94,7 @@ const TodoCard: React.FC<TodoProps> = ({ todo }) => {
               title: value,
               from: todo.from,
               completed: todo.completed,
+              motivazione: todo.motivazione,
               id: todo.id,
             });
           }
@@ -85,7 +123,12 @@ const TodoCard: React.FC<TodoProps> = ({ todo }) => {
               className="w-1/6"
             />
             {/* Title */}
-            <div className="font-bold text-xl pl-1">{todo.title}</div>
+            <div
+              className="font-bold text-xl pl-1"
+              onClick={handleShowEditMotivazione}
+            >
+              {todo.title}
+            </div>
           </div>
           {/* Checkbox */}
           <div className="flex items-center">

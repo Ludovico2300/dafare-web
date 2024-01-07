@@ -8,11 +8,13 @@ export default function CreateTodo() {
   const [title, setTitle] = useState<string>("");
   const [from, setFrom] = useState<string>("");
   const [completed, setCompleted] = useState<boolean>(false);
+  const [motivazione, setMotivazione] = useState<string>("");
 
   const resetForm = () => {
     setTitle("");
     setFrom("");
     setCompleted(false);
+    setMotivazione("");
   };
 
   const handleAddPost = async () => {
@@ -25,6 +27,7 @@ export default function CreateTodo() {
           title: title,
           from: from,
           completed: completed,
+          motivazione: motivazione ? motivazione : "palle di cane",
           id: todos.length,
         });
 
@@ -76,6 +79,19 @@ export default function CreateTodo() {
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+
+          {/* Title Input */}
+          <div className="w-full mb-4">
+            <label className="text-xl font-bold mb-2">Motivazione</label>
+            <input
+              className="w-full border border-black p-2 rounded-md"
+              placeholder="Inserisci la motivazione..."
+              type="text"
+              name="motivazione"
+              value={motivazione}
+              onChange={(e) => setMotivazione(e.target.value)}
             />
           </div>
 
